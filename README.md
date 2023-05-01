@@ -1,44 +1,131 @@
-# Python-Project-Proposal
-#I'm going to improve the dictionary portion
 import random
 
 class Question:
-    def __init__(self, text, is_true):
+    def __init__(self, attribute, text):
         self.text = text
-        self.is_true = is_true
+        self.is_true = attribute
 
 class Object:
-    def __init__(self, name, questions):
+    def __init__(self, name, attributes, questions):
         self.name = name
+        self.attributes = attributes
         self.questions = questions
 
+        
+def initObjects():
+    objs = {}
+    
+    objs["ball"] = Object("a ball", {"round", "bouncy", "portable"}, [
+        Question(True, "Can you bounce it?"),
+        Question(True, "Is it for kids?"),
+    ])
+    
+    objs["lamp"] = Object("a lamp", {"electric", "has a shade","portable"}, [
+        Question(True, "Can you turn it on?"),
+        Question(True, "Can it be bright?"),
+        Question(True, "Does it have a shade?"),
+    ])
+    
+    objs["couch"] = Object("a couch", {"soft", "large", "sittable","comfortable","has cushions"}, [
+        Question(True, "Can you sit on it?"),
+        Question(True, "Is it comfortable?"),
+        Question(True, "Does it have cushions?"),
+    ])
+    
+    objs["bed"] = Object("a bed", {"soft", "large", "comfortable"}, [
+        Question(True, "Is it comfortable?"),
+        Question(True, "Can you sleep on it?"),
+        Question(True, "Can you lay in it?"),
+    ])
+    
+    objs["tv"] = Object("a T.V", {"hard", "large", "watchable","has a screen","electric"}, [
+        Question(True, "Can you watch something on it?"),
+        Question(True, "Will it entertain you?"),
+    ])
+    
+    objs["book"] = Object("a book", {"hard", "readable", "contains paper","portable"}, [
+        Question(True, "Can you read it?"),
+        Question(True, "Will it entertain you?"),
+    ])
+    
+    objs["laptop"] = Object("a laptop", {"hard", "portable", "has a screen","electric"}, [
+        Question(True, "Can you type on it?"),
+        Question(True, "Is it portable?"),
+    ])
+    
+    objs["chair"] = Object("a Mirror", {"Reflect light", "Contains glass", "has a reflection"}, [
+        Question(True, "Can you see yourself in it?"),
+        Question(True, "Can you use to do makeup?"),
+    ])
+    
+    objs["table"] = Object("a table", {"hard", "flat", "has legs","stationary","usable"}, [
+        Question(True, "Can you put things on it?"),
+        Question(True, "Is it hard?"),
+        Question(True, "Does it have legs?"),
+    ])
+    
+    objs["plate"] = Object("a plate", {"round", "flat", "edible","dishware"}, [
+        Question(True, "Can you eat off of it?"),
+        Question(True, "Is it flat?"),
+    ])
+    
+    objs["chair"] = Object("a chair", {"sittable", "portable", "has a backrest","comfortable"}, [
+        Question(True, "Can you sit on it?"),
+        Question(True, "Is it comfortable?"),
+        Question(True, "Does it have a backrest?"),
+    ])
+    
+    objs["vacuum"] = Object("a vacuum", {"electric", "has a cord", "has suction","stationary"}, [
+        Question(True, "Can it clean floors?"),
+        Question(True, "Does it have a cord?"),
+    ])
+    
+    objs["sink"] = Object("a sink", {"porcelain", "has a faucet", "usable","stationary"}, [
+        Question(True, "Can you wash your hands in it")
+    ])
+    return objs
+
+    
+def makeAttributeDict(objs):
+    d = {}
+    for o in objs.values():
+        for attr in o.attributes:
+            if attr not in d:
+                d[attr] = [o.name]
+            else:    
+                d[attr].append(o.name)
+    
+    return d
+
 def play_game(objects):
-    print("Welcome to Guess the Object! Think of an object and answer the following questions:")
+    print("Thank you for playing Object Dectective!")
     while True:
-        obj = random.choice(objects)
-        for question in obj.questions:
-            answer = input(question.text + " (y/n) ")
-            if answer.lower() == "y" and not question.is_true:
-                break
-            elif answer.lower() == "n" and question.is_true:
-                break
-        else:
-            print("I think your object is " + obj.name + "!")
-            play_again = input("Do you want to play again? (y/n) ")
-            if play_again.lower() == "n":
+        obj = random.choice(list(objects.values()))
+        attrs = obj.attributes
+        while len(attrs) > 0:
+            attr = random.choice(list(attrs))
+            answer = input("Does the object have the attribute '{}'? (y/n) ".format(attr))
+            if answer.lower() == "y" and attr in obj.attributes:
+                attrs.remove(attr)
+            elif answer.lower() == "n" and attr not in obj.attributes:
+                attrs.remove(attr)
+            else:
+                print("That answer is incorrect. Please try again.")
+        print("I think your object is " + obj.name + "!")
+        play_again = input("Do you want to play again? (y/n) ")
+        if play_again.lower() == "n":
+            return
 
 
-
-            
-                return
 
 if __name__ == "__main__":
-     #Object("Couch", [Question("Can you sit on your object?", True),
-                         #Question("Is it a couch or chair?", True)]),
-    a = input('can you sit')
-    b = input('is it a couch')
-    diction = {'TrueTrue':'couch'}
-    print(diction[a+b])
-    pillow = 1
-    {"soft":['pillow','chair','couch']}
-    #play_game(objects)
+    objects = initObjects()
+    print("Welcome to object detective? Tell the Object Dectective what you're thinking of.!")
+    while True:
+        start_game = input("Welcome to Object Detective. Are you ready to be interrogated? (y/n) ")
+        if start_game.lower() == "y":
+            play_game(objects)
+        else:
+            break
+
+
