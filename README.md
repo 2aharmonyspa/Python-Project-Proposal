@@ -1,131 +1,17 @@
-import random
+Hello. This is a guess the object ga,e where you guess the object and I'll give you an answer.
 
-class Question:
-    def __init__(self, attribute, text):
-        self.text = text
-        self.is_true = attribute
+1. First, the code defines a `Question` class with two attributes: `text` and `is_true`. `text` holds the text of the question, and `is_true` holds a Boolean value that indicates whether the answer to the question is "yes" or "no".
 
-class Object:
-    def __init__(self, name, attributes, questions):
-        self.name = name
-        self.attributes = attributes
-        self.questions = questions
+2. The code then defines an `Object` class with three attributes: `name`, `attributes`, and `questions`. `name` holds the name of the object, `attributes` is a set of strings that describe the object, and `questions` is a list of `Question` objects that can be asked to determine the object.
 
-        
-def initObjects():
-    objs = {}
-    
-    objs["ball"] = Object("a ball", {"round", "bouncy", "portable"}, [
-        Question(True, "Can you bounce it?"),
-        Question(True, "Is it for kids?"),
-    ])
-    
-    objs["lamp"] = Object("a lamp", {"electric", "has a shade","portable"}, [
-        Question(True, "Can you turn it on?"),
-        Question(True, "Can it be bright?"),
-        Question(True, "Does it have a shade?"),
-    ])
-    
-    objs["couch"] = Object("a couch", {"soft", "large", "sittable","comfortable","has cushions"}, [
-        Question(True, "Can you sit on it?"),
-        Question(True, "Is it comfortable?"),
-        Question(True, "Does it have cushions?"),
-    ])
-    
-    objs["bed"] = Object("a bed", {"soft", "large", "comfortable"}, [
-        Question(True, "Is it comfortable?"),
-        Question(True, "Can you sleep on it?"),
-        Question(True, "Can you lay in it?"),
-    ])
-    
-    objs["tv"] = Object("a T.V", {"hard", "large", "watchable","has a screen","electric"}, [
-        Question(True, "Can you watch something on it?"),
-        Question(True, "Will it entertain you?"),
-    ])
-    
-    objs["book"] = Object("a book", {"hard", "readable", "contains paper","portable"}, [
-        Question(True, "Can you read it?"),
-        Question(True, "Will it entertain you?"),
-    ])
-    
-    objs["laptop"] = Object("a laptop", {"hard", "portable", "has a screen","electric"}, [
-        Question(True, "Can you type on it?"),
-        Question(True, "Is it portable?"),
-    ])
-    
-    objs["chair"] = Object("a Mirror", {"Reflect light", "Contains glass", "has a reflection"}, [
-        Question(True, "Can you see yourself in it?"),
-        Question(True, "Can you use to do makeup?"),
-    ])
-    
-    objs["table"] = Object("a table", {"hard", "flat", "has legs","stationary","usable"}, [
-        Question(True, "Can you put things on it?"),
-        Question(True, "Is it hard?"),
-        Question(True, "Does it have legs?"),
-    ])
-    
-    objs["plate"] = Object("a plate", {"round", "flat", "edible","dishware"}, [
-        Question(True, "Can you eat off of it?"),
-        Question(True, "Is it flat?"),
-    ])
-    
-    objs["chair"] = Object("a chair", {"sittable", "portable", "has a backrest","comfortable"}, [
-        Question(True, "Can you sit on it?"),
-        Question(True, "Is it comfortable?"),
-        Question(True, "Does it have a backrest?"),
-    ])
-    
-    objs["vacuum"] = Object("a vacuum", {"electric", "has a cord", "has suction","stationary"}, [
-        Question(True, "Can it clean floors?"),
-        Question(True, "Does it have a cord?"),
-    ])
-    
-    objs["sink"] = Object("a sink", {"porcelain", "has a faucet", "usable","stationary"}, [
-        Question(True, "Can you wash your hands in it")
-    ])
-    return objs
+3. The `initObjects()` function creates a dictionary of `Object` instances, with each object having a name, a set of attributes, and a list of questions. Each object represents a different object that can be guessed in the game.
 
-    
-def makeAttributeDict(objs):
-    d = {}
-    for o in objs.values():
-        for attr in o.attributes:
-            if attr not in d:
-                d[attr] = [o.name]
-            else:    
-                d[attr].append(o.name)
-    
-    return d
+4. The `makeAttributeDict()` function creates a dictionary of attributes mapped to the objects that have those attributes. This is used later in the game to check if a guessed attribute matches any of the attributes of the object being guessed.
 
-def play_game(objects):
-    print("Thank you for playing Object Dectective!")
-    while True:
-        obj = random.choice(list(objects.values()))
-        attrs = obj.attributes
-        while len(attrs) > 0:
-            attr = random.choice(list(attrs))
-            answer = input("Does the object have the attribute '{}'? (y/n) ".format(attr))
-            if answer.lower() == "y" and attr in obj.attributes:
-                attrs.remove(attr)
-            elif answer.lower() == "n" and attr not in obj.attributes:
-                attrs.remove(attr)
-            else:
-                print("That answer is incorrect. Please try again.")
-        print("I think your object is " + obj.name + "!")
-        play_again = input("Do you want to play again? (y/n) ")
-        if play_again.lower() == "n":
-            return
+5. The `play_game()` function starts the game. It selects a random object from the dictionary of objects and asks a series of questions about the object's attributes until it has determined the object being guessed. The user inputs "y" or "n" to answer each question.
 
+6. Finally, the `__main__` block of code prompts the user to start the game and calls the `play_game()` function if the user chooses to play.
 
+So when the code runs, the user is prompted to start the game. If they choose to play, the `play_game()` function is called and a random object is selected from the dictionary of objects. The game then prompts the user with questions about the attributes of the object until it is guessed correctly. Once the object is guessed, the user is asked if they want to play again. If they do, the game repeats with a new random object. If they do not, the game ends.
 
-if __name__ == "__main__":
-    objects = initObjects()
-    print("Welcome to object detective? Tell the Object Dectective what you're thinking of.!")
-    while True:
-        start_game = input("Welcome to Object Detective. Are you ready to be interrogated? (y/n) ")
-        if start_game.lower() == "y":
-            play_game(objects)
-        else:
-            break
-
-URL FOR video. https://youtu.be/ADoi6gYVueA
+URL FOR youtube video. https://youtu.be/ADoi6gYVueA
